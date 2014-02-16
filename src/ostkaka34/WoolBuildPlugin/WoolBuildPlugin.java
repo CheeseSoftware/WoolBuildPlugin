@@ -20,6 +20,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -125,8 +126,11 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 			Player player = event.getPlayer();
 			Block block = event.getBlock();
 			
-			if (block.getType().getId() == 35 || blocks.contains(block.getType()))
-				player.getInventory().addItem(new ItemStack(block.getType()));
+			if (block.getType().getId() == 35 || blocks.contains(block.getType())) {
+				ItemStack item = new ItemStack(block.getType());
+				item.setData(new MaterialData(block.getType(), block.getData()));
+				player.getInventory().addItem(item);
+			}
 			
 			block.setType(Material.AIR);
 		}

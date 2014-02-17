@@ -40,6 +40,10 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 		blocks.add(Material.THIN_GLASS);
 		blocks.add(Material.CAKE);
 		blocks.add(Material.CACTUS);
+		blocks.add(Material.CARPET);
+		blocks.add(Material.MELON);
+		blocks.add(Material.PUMPKIN);
+		blocks.add(Material.GRAVEL);
 		
 		
 		//getCommand("testcommand").setExecutor(this);

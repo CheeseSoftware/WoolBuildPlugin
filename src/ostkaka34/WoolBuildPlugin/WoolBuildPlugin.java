@@ -16,6 +16,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -33,6 +34,7 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 	
 	@Override
 	public void onEnable(){
+		blocks.add(Material.WOOL);
 		blocks.add(Material.GLASS);
 		blocks.add(Material.TORCH);
 		blocks.add(Material.WEB);
@@ -44,6 +46,7 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 		blocks.add(Material.MELON);
 		blocks.add(Material.PUMPKIN);
 		blocks.add(Material.GRAVEL);
+		blocks.add(Material.STAINED_GLASS_PANE);
 		
 		
 		//getCommand("testcommand").setExecutor(this);
@@ -85,6 +88,9 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerInteractBlock(PlayerInteractEvent event) {
+		if (event.isCancelled())
+			return;
+		
 		Action action = event.getAction();
 		Player player = event.getPlayer();
 		Material handType = player.getItemInHand().getType();
@@ -116,11 +122,13 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onBlockDamageEvent(BlockDamageEvent event) {
+		if (event.isCancelled())
+			return;
 		
 		if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
 			Material type = event.getBlock().getType();
 			
-			if (!(type.getId() == 35 || blocks.contains(type)))
+			if (!(blocks.contains(type)))
 				event.setCancelled(true);
 			else if (type == Material.WEB)
 				event.setInstaBreak(true);
@@ -130,11 +138,14 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onBlockBreakEvent(BlockBreakEvent event) {
+		if (event.isCancelled())
+			return;
+		
 		if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
 			Player player = event.getPlayer();
 			Block block = event.getBlock();
 			
-			if (block.getType().getId() == 35 || blocks.contains(block.getType())) {
+			if (blocks.contains(block.getType()) && block.getType() != Material.GLASS && block.getType() != Material.THIN_GLASS) {
 				ItemStack item = new ItemStack(block.getType());
 				item.setData(new MaterialData(block.getType(), block.getData()));
 				player.getInventory().addItem(item);
@@ -147,10 +158,13 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onBlockPlaceEvent(BlockPlaceEvent event) {
+		if (event.isCancelled())
+			return;
+		
 		if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
 			Material type = event.getBlock().getType();
 			
-			if (!(type.getId() == 35 || blocks.contains(type)))
+			if (!(blocks.contains(type)))
 				event.setCancelled(true);
 		}
 	}

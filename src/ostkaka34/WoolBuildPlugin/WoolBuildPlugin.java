@@ -128,11 +128,7 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 		if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
 			Material type = event.getBlock().getType();
 			
-<<<<<<< HEAD
 			if (!blocks.contains(type))
-=======
-			if (!(blocks.contains(type)))
->>>>>>> 0ce8b4c9776c3d4804ce82d7446ada4280a8f27c
 				event.setCancelled(true);
 			else if (type == Material.WEB)
 				event.setInstaBreak(true);
@@ -149,11 +145,7 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 			Player player = event.getPlayer();
 			Block block = event.getBlock();
 			
-<<<<<<< HEAD
-			if (blocks.contains(block.getType())) {
-=======
 			if (blocks.contains(block.getType()) && block.getType() != Material.GLASS && block.getType() != Material.THIN_GLASS) {
->>>>>>> 0ce8b4c9776c3d4804ce82d7446ada4280a8f27c
 				ItemStack item = new ItemStack(block.getType());
 				item.setData(new MaterialData(block.getType(), block.getData()));
 				player.getInventory().addItem(item);

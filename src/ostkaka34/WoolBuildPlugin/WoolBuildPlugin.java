@@ -1,7 +1,10 @@
 package ostkaka34.WoolBuildPlugin;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -30,10 +33,14 @@ import ostkaka34.OstEconomyPlugin.IOstEconomy;
 public class WoolBuildPlugin extends JavaPlugin implements Listener {
 	IOstEconomy economyPlugin = null;
 	
-	List<Material> blocks = new ArrayList<Material>();
+	List<Material> blocks;
+	Map<Material, Material> replaceBlocks;
 	
 	@Override
 	public void onEnable(){
+		blocks = new ArrayList<Material>();
+		replaceBlocks = new HashMap<Material, Material>();
+		
 		blocks.add(Material.WOOL);
 		blocks.add(Material.GLASS);
 		blocks.add(Material.TORCH);
@@ -47,6 +54,11 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 		blocks.add(Material.PUMPKIN);
 		blocks.add(Material.GRAVEL);
 		blocks.add(Material.STAINED_GLASS_PANE);
+		blocks.add(Material.CHEST);
+		
+		replaceBlocks.put(Material.GLASS, Material.WOOD);
+		replaceBlocks.put(Material.THIN_GLASS, Material.WOOD);
+		replaceBlocks.put(Material.STAINED_GLASS_PANE, Material.WOOD);
 		
 		
 		//getCommand("testcommand").setExecutor(this);
@@ -93,11 +105,27 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 		
 		Action action = event.getAction();
 		Player player = event.getPlayer();
+		Block block = event.getClickedBlock();
 		Material handType = player.getItemInHand().getType();
-		Location loc;
+		Location loc = block.getLocation();
+		
+		double distance = loc.distance(player.getEyeLocation());
+		
+		if (action == Action.RIGHT_CLICK_BLOCK && distance < 5)
+		{
+			if (replaceBlocks.containsKey(block.getType()))
+			{
+				if (replaceBlocks.get(block.getType()) == handType)
+				{
+					block.setType(handType);
+				
+					RemoveFromHand(event.getPlayer());
+				}
+			}
+		}
 		//
 		//double distance = loc.distance(player.getEyeLocation());
-		if (event.getPlayer().getGameMode() != GameMode.CREATIVE && false) {
+		/*if (event.getPlayer().getGameMode() != GameMode.CREATIVE && false) {
 			/*if (action == Action.RIGHT_CLICK_BLOCK) {
 				loc = player.getTargetBlock(null, 200).getLocation();
 				
@@ -108,7 +136,7 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 					}
 				}
 			}
-			else */if (action == Action.LEFT_CLICK_BLOCK) {
+			else *-/if (action == Action.LEFT_CLICK_BLOCK) {
 				loc = event.getClickedBlock().getLocation();
 				
 				Block block = player.getWorld().getBlockAt(loc);
@@ -116,7 +144,7 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 				if (block.getType() == Material.WOOL || block.getType() == Material.WEB || block.getType() == Material.GLASS)
 					block.breakNaturally();
 			}
-		}
+		}*/
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -163,13 +191,21 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 		
 		if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
 			Material type = event.getBlock().getType();
-			
-			if (!(blocks.contains(type)))
+			Block otherBlock = event.getPlayer().getTargetBlock(null, 200);
+					
+					/*player.getTargetBlock(null, 200).getLocation();*/
+			if (replaceBlocks.containsKey(otherBlock.getType()))
+			{
 				event.setCancelled(true);
+			}
+			if (!(blocks.contains(type)))
+			{
+				event.setCancelled(true);
+			}
 		}
 	}
 
-	/*@SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecation")
 	private boolean RemoveFromHand(Player player) {
 		ItemStack hand = player.getItemInHand();
 		
@@ -188,5 +224,5 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 			return true;
 		}
 		return false;
-	}*/
+	}
 }

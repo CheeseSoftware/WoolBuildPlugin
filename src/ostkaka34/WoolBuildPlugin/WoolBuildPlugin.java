@@ -42,24 +42,29 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 		replaceBlocks = new HashMap<Material, Material>();
 		
 		blocks.add(Material.WOOL);
+		
 		blocks.add(Material.GLASS);
+		blocks.add(Material.THIN_GLASS);
+		blocks.add(Material.STAINED_GLASS);
+		blocks.add(Material.STAINED_GLASS_PANE);
+		
 		blocks.add(Material.TORCH);
 		blocks.add(Material.WEB);
 		blocks.add(Material.LADDER);
-		blocks.add(Material.THIN_GLASS);
 		blocks.add(Material.CAKE);
 		blocks.add(Material.CACTUS);
 		blocks.add(Material.CARPET);
 		blocks.add(Material.MELON);
+		blocks.add(Material.SNOW_BLOCK);
 		blocks.add(Material.PUMPKIN);
+		blocks.add(Material.JACK_O_LANTERN);
 		blocks.add(Material.GRAVEL);
-		blocks.add(Material.STAINED_GLASS_PANE);
+
 		blocks.add(Material.CHEST);
 		
 		replaceBlocks.put(Material.GLASS, Material.WOOD);
 		replaceBlocks.put(Material.THIN_GLASS, Material.WOOD);
 		replaceBlocks.put(Material.STAINED_GLASS_PANE, Material.WOOD);
-		
 		
 		//getCommand("testcommand").setExecutor(this);
 		getServer().getPluginManager().registerEvents(this, this);
@@ -123,6 +128,7 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 				}
 			}
 		}
+	}
 		//
 		//double distance = loc.distance(player.getEyeLocation());
 		/*if (event.getPlayer().getGameMode() != GameMode.CREATIVE && false) {
@@ -136,16 +142,25 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 					}
 				}
 			}
+<<<<<<< HEAD
+			elseif (action == Action.LEFT_CLICK_BLOCK) {
+=======
 			else *-/if (action == Action.LEFT_CLICK_BLOCK) {
+>>>>>>> saker som jag inte kommer ihåg
 				loc = event.getClickedBlock().getLocation();
 				
 				Block block = player.getWorld().getBlockAt(loc);
 				
-				if (block.getType() == Material.WOOL || block.getType() == Material.WEB || block.getType() == Material.GLASS)
+				if (blocks.contains(block.getType()))
 					block.breakNaturally();
+<<<<<<< HEAD
+			}*/
+		//}
+/*=======
 			}
-		}*/
-	}
+		}* /
+>>>>>>> saker som jag inte kommer ihåg
+	}*/
 	
 	@SuppressWarnings("deprecation")
 	@EventHandler
@@ -156,7 +171,7 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 		if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
 			Material type = event.getBlock().getType();
 			
-			if (!(blocks.contains(type)))
+			if (!blocks.contains(type))
 				event.setCancelled(true);
 			else if (type == Material.WEB)
 				event.setInstaBreak(true);
@@ -212,7 +227,7 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 		if (hand.getType() != Material.AIR) {
 			if (hand.getAmount() == 1)
 			{
-				hand.setType(null);
+				hand.setType(Material.AIR);
 			}
 			else
 			{

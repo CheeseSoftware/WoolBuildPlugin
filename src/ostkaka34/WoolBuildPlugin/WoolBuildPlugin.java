@@ -34,11 +34,13 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 	IOstEconomy economyPlugin = null;
 	
 	List<Material> blocks;
+	List<Material> weakBlocks;
 	Map<Material, Material> replaceBlocks;
 	
 	@Override
 	public void onEnable(){
 		blocks = new ArrayList<Material>();
+		weakBlocks = new ArrayList<Material>();
 		replaceBlocks = new HashMap<Material, Material>();
 		
 		blocks.add(Material.WOOL);
@@ -61,6 +63,15 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 		blocks.add(Material.GRAVEL);
 
 		blocks.add(Material.CHEST);
+		
+		weakBlocks.add(Material.GLASS);
+		weakBlocks.add(Material.THIN_GLASS);
+		weakBlocks.add(Material.LONG_GRASS);
+		weakBlocks.add(Material.DEAD_BUSH);
+		weakBlocks.add(Material.DOUBLE_PLANT);
+		weakBlocks.add(Material.RED_ROSE);
+		weakBlocks.add(Material.YELLOW_FLOWER);
+		weakBlocks.add(Material.VINE);
 		
 		replaceBlocks.put(Material.GLASS, Material.WOOD);
 		replaceBlocks.put(Material.THIN_GLASS, Material.WOOD);
@@ -102,10 +113,12 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 		return false; 
 	}
 
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPlayerInteractBlock(PlayerInteractEvent event) {
 		if (event.isCancelled())
+			return;
+		
+		if (event.getPlayer().getGameMode() == GameMode.CREATIVE)
 			return;
 		
 		Action action = event.getAction();
@@ -171,7 +184,7 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 		if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
 			Material type = event.getBlock().getType();
 			
-			if (!blocks.contains(type))
+			if (!blocks.contains(type) && !weakBlocks.contains(type))
 				event.setCancelled(true);
 			else if (type == Material.WEB)
 				event.setInstaBreak(true);
@@ -188,7 +201,7 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 			Player player = event.getPlayer();
 			Block block = event.getBlock();
 			
-			if (blocks.contains(block.getType()) && block.getType() != Material.GLASS && block.getType() != Material.THIN_GLASS) {
+			if (blocks.contains(block.getType()) && !weakBlocks.contains(block.getType())) {
 				ItemStack item = new ItemStack(block.getType());
 				item.setData(new MaterialData(block.getType(), block.getData()));
 				player.getInventory().addItem(item);

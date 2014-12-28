@@ -57,7 +57,7 @@
 		<antcall target="build" />
 	</target>
 	<target name="build-jar">
-		<jar destfile="C:\Users\Gustav\Desktop\WoolBuildPlugin-DEBUG-SNAPSHOT.jar" basedir="target/classes" includes="com/github/cheesesoftware/*">
+		<jar destfile="C:\Users\Gustav\Desktop\WoolBuildPlugin-DEBUG-SNAPSHOT.jar" basedir="target/classes" includes="com/github/cheesesoftware/WoolBuildPlugin/*">
 			<fileset dir="target/classes" includes="*" />
 		</jar>
 	</target>

@@ -1,7 +1,6 @@
-package ostkaka34.WoolBuildPlugin;
+package com.github.cheesesoftware;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -28,7 +26,7 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import ostkaka34.OstEconomyPlugin.IOstEconomy;
+import com.github.cheesesoftware.OstEconomyPlugin.IOstEconomy;
 
 public class WoolBuildPlugin extends JavaPlugin implements Listener {
 	IOstEconomy economyPlugin = null;
@@ -142,40 +140,7 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 			}
 		}
 	}
-		//
-		//double distance = loc.distance(player.getEyeLocation());
-		/*if (event.getPlayer().getGameMode() != GameMode.CREATIVE && false) {
-			/*if (action == Action.RIGHT_CLICK_BLOCK) {
-				loc = player.getTargetBlock(null, 200).getLocation();
-				
-				if (handType == Material.WOOL || handType == Material.WEB) {
-					if (RemoveFromHand(player)) {
-						player.getWorld().getBlockAt(loc).setType(handType);
-						player.playSound(player.getEyeLocation(), Sound.WOOD_CLICK, 1, 1);
-					}
-				}
-			}
-<<<<<<< HEAD
-			elseif (action == Action.LEFT_CLICK_BLOCK) {
-=======
-			else *-/if (action == Action.LEFT_CLICK_BLOCK) {
->>>>>>> saker som jag inte kommer ihåg
-				loc = event.getClickedBlock().getLocation();
-				
-				Block block = player.getWorld().getBlockAt(loc);
-				
-				if (blocks.contains(block.getType()))
-					block.breakNaturally();
-<<<<<<< HEAD
-			}*/
-		//}
-/*=======
-			}
-		}* /
->>>>>>> saker som jag inte kommer ihåg
-	}*/
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onBlockDamageEvent(BlockDamageEvent event) {
 		if (event.isCancelled())
@@ -233,7 +198,6 @@ public class WoolBuildPlugin extends JavaPlugin implements Listener {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	private boolean RemoveFromHand(Player player) {
 		ItemStack hand = player.getItemInHand();
 		
